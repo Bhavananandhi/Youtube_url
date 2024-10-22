@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .inpt{
+            border:2px solid black;
+            padding:5%;
+            width:25vw;
+            margin-left:32vw;
+           border-radius: 19px;
+           transition:transform 0.3s ease,background-color 0.3s ease;
+        }
+        .inpt:hover {
+            transform: translateY(-10px); /* Moves the div 10px up */
+        }
+        .inpt:hover .typingbox {
+            background-color: rgb(154, 31, 207)/* Changes the background color on hover */
+        }
+
+        
+
+        .headr{
+            margin-left:32vw;
+            margin-top:30vh;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .bdy{
+            background-color: rgb(132, 44, 214);
+        }
+        .labl{
+            font-size: larger;
+            font-weight: 30%;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+        }
+        .typingbox{
+            background-color:rgb(132, 44, 214);
+            border:2px solid black;
+            border-radius: 9px;
+            width:25vw;
+
+        }
+        .submt{
+            background-color:rgb(132, 44, 214);
+            border:2px solid black;
+            border-radius: 9px;
+            font-size: medium;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+        }
+        .submt:hover{
+            background-color: rgb(154, 31, 207);
+        }
+
+    </style>
+</head>
+<body class="bdy">
+    <h1 class="headr">YOUTUBE VIDEO DOWNLOADER</h1>
+    <div class="inpt"> 
+    <form>
+        <label class="labl">Enter the url</label><br>
+        <input type="text" class="typingbox">
+    </form>
+    <br>
+    <button class="submt">Submit</button>
+</div>
+</body>
+
+<script>
+    const submitButton = document.querySelector(".submt");
+    submitButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        
+        const inputBox = document.querySelector(".typingbox");
+        const videoURL = inputBox.value;
+
+        if (videoURL) {
+            try {
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ video_url: videoURL }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert(result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        } else {
+            alert("Please enter a YouTube URL");
+        }
+    });
+</script>
+
+</html>
